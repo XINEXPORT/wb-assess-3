@@ -2,10 +2,17 @@ console.log('Hello World');
 import axios from "axios";
 
 async function randomFossil(evt){
+  const url = `/random-fossil.json`;
   const getRandFossil = document.querySelector('#get-random-fossil');
-  let img;
-  const response = await axios.get(`/random-fossil.json?q=${img}`);
-  img = response.data;
+  const response = await axios.get(url);
+
+  console.log(response);
+
+  const img = response.data.img;
+
+  const name =  response.data.name;
+  console.log(img);
+  
   document.querySelector('#random-fossil-image').innerHTML = `<img src = ${img}>`;
 }
 

@@ -65,6 +65,49 @@ const DEFAULT_FOSSIL = 'Broncosaurus';
 
 //FUNCTIONS//
 
+//Add like to empty object//
+// let {name} = req.params
+// let sess = req.session;
+
+// console.log (sess);
+
+// if(!sess.like){
+//   sess.like = {};
+// }
+
+// if(!sess.like[name]){
+//   sess.like[name] = 0;
+// }
+// sess.like[name]++;
+// console.log(sess.like[name]);
+// res.redirect('/top-fossils');
+// });
+
+//   TODO: Display the likes in top-fossils.
+
+// app.get('/top-fossils', (req,res)=>
+// let sess = req.session;
+
+// if(!sess.like){
+//   sess.like = {};
+// }
+// console.log(sess);
+// console.log("/like hit");
+
+// let like = sess.like;
+// console.log(like);
+// let arrLikes = [];
+// let arrTotal = 0;
+
+// for (let name in like){
+//   const qty = sess.like[name]
+//   console.log(name);
+// }
+
+// )
+
+
+
 app.get('/OTHER_FOSSILS.png', (req, res) => {
   const img = req.query["q"];
   console.log(img);
@@ -77,6 +120,26 @@ app.get('/OTHER_FOSSILS.png', (req, res) => {
     res.send(DEFAULT_FOSSIL);
   }
   })
+
+
+  //Top-Fossils//
+
+
+
+  // document.querySelector('#fossil-submit-btn').addEventListener('click', topFossils);
+
+  //Username//
+
+  app.post('/', (req, res) => {
+    for(let user of users){
+      if (req.body.username === user.username){
+        console.log(req.body.username);
+        res.redirect('/top-fossils');
+        return;
+      }
+    }
+    res.render('/', { message: 'You forgot to share your name!' });
+  });
 
 
 // ROUTES //
