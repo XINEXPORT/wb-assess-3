@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
 import ViteExpress from 'vite-express';
+import axios from 'axios';
 
 const app = express();
 const port = '8000';
@@ -60,12 +61,52 @@ const OTHER_FOSSILS = [
   },
 ];
 
-// TODO: Replace this comment with your code
+const DEFAULT_FOSSIL = 'Broncosaurus';
+
+//FUNCTIONS//
+
+app.get('/OTHER_FOSSILS.png', (req, res) => {
+  const img = req.query["q"];
+  console.log(img);
+  const fossilIMG = OTHER_FOSSILS[img]
+  console.log(fossilIMG);
+   if (fossilIMG){
+    res.send(fossilIMG.name);
+   }
+  else{
+    res.send(DEFAULT_FOSSIL);
+  }
+  })
+
+
+// ROUTES //
+
+app.get('/', (req, res) => {
+  if (req.session.name) {
+    res.render('/top-fossils.html.njk')
+  } else {
+    res.render('homepage.html.njk')
+  }
+})
+
+app.get('/top-fossils', (req, res) => {
+  res.render('top-fossils.html.njk');
+});
+
+app.get('/thank-you', (req, res) => {
+  res.render('thank-you.html.njk');
+});
 
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
 });
+
+
+// app.get('/top-fossils', (req, res) => {
+//   const topFossils = MOST_LIKED_FOSSILS
+//   res.render('top-fossils.html.njk');
+// });
 
 ViteExpress.listen(app, port, () => {
   console.log(`Server running on http://localhost:${port}...`);
