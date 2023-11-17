@@ -54,3 +54,11 @@ img.centered {
 .fossil-div img {
   border: 2px solid green;
 }
+
+#fossil-rank{
+  border:2px;
+}
+
+.nav-link{
+  padding: 10px;;
+}

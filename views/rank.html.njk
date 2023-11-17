@@ -1,0 +1,25 @@
+{% extends 'base.html.njk' %}
+
+{% block body %}
+<table id= "fossil-rank">
+  <thead>
+    <tr>
+      <th>Fossil Picture</th>
+      <th>Fossil Name</th>
+      <th>Likes</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for fossil in arrFossils%}
+    <tr>
+      <td>{{fossil.img}}</td>
+      <td>{{fossil.name}}</td>
+      <td>${{fossil.likes}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<a class ="btn btn-primary" href="/homepage/">Back to Home</a>
+
+{% endblock %}

@@ -63,87 +63,13 @@ const OTHER_FOSSILS = [
 
 const DEFAULT_FOSSIL = 'Broncosaurus';
 
-//FUNCTIONS//
+//FossilID from MOST LIKED FOSSILS
 
-//Add like to empty object//
-// let {name} = req.params
-// let sess = req.session;
+function getFossilDetails(fossilID){
+  return MOST_LIKED_FOSSILS[fossilID];
+}
 
-// console.log (sess);
-
-// if(!sess.like){
-//   sess.like = {};
-// }
-
-// if(!sess.like[name]){
-//   sess.like[name] = 0;
-// }
-// sess.like[name]++;
-// console.log(sess.like[name]);
-// res.redirect('/top-fossils');
-// });
-
-//   TODO: Display the likes in top-fossils.
-
-// app.get('/top-fossils', (req,res)=>
-// let sess = req.session;
-
-// if(!sess.like){
-//   sess.like = {};
-// }
-// console.log(sess);
-// console.log("/like hit");
-
-// let like = sess.like;
-// console.log(like);
-// let arrLikes = [];
-// let arrTotal = 0;
-
-// for (let name in like){
-//   const qty = sess.like[name]
-//   console.log(name);
-// }
-
-// )
-
-
-
-app.get('/OTHER_FOSSILS.png', (req, res) => {
-  const img = req.query["q"];
-  console.log(img);
-  const fossilIMG = OTHER_FOSSILS[img]
-  console.log(fossilIMG);
-   if (fossilIMG){
-    res.send(fossilIMG.name);
-   }
-  else{
-    res.send(DEFAULT_FOSSIL);
-  }
-  })
-
-
-  //Top-Fossils//
-
-
-
-  // document.querySelector('#fossil-submit-btn').addEventListener('click', topFossils);
-
-  //Username//
-
-  app.post('/', (req, res) => {
-    for(let user of users){
-      if (req.body.username === user.username){
-        console.log(req.body.username);
-        res.redirect('/top-fossils');
-        return;
-      }
-    }
-    res.render('/', { message: 'You forgot to share your name!' });
-  });
-
-
-// ROUTES //
-
+////// ROUTES //////////////////////
 app.get('/', (req, res) => {
   if (req.session.name) {
     res.render('/top-fossils.html.njk')
@@ -156,6 +82,10 @@ app.get('/top-fossils', (req, res) => {
   res.render('top-fossils.html.njk');
 });
 
+app.get('/rank', (req, res) => {
+  res.render('rank.html.njk');
+});
+
 app.get('/thank-you', (req, res) => {
   res.render('thank-you.html.njk');
 });
@@ -165,11 +95,98 @@ app.get('/random-fossil.json', (req, res) => {
   res.json(randomFossil);
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+  res.render('homepage.html.njk');
+});
+});
 
-// app.get('/top-fossils', (req, res) => {
-//   const topFossils = MOST_LIKED_FOSSILS
-//   res.render('top-fossils.html.njk');
-// });
+app.get('/like-fossil', (req, res) => {
+  res.render('rank.html.njk');
+});
+
+////////////Top Fossils is like Add to Cart///////////////
+
+app.get('/top-fossils/:fossilID', (req, res) => {
+if(req.session.name){
+  let sess = req.session;
+  let {Aust,Quetz,Steg, Tyra } = MOST_LIKED_FOSSILS;
+
+  console.log(MOST_LIKED_FOSSILS);
+
+  if (!sess.rank){
+    sess.rank = {};
+}
+
+if (!sess.rank[fossilId]){
+  sess.rank[fossilId] = num_likes;
+}
+
+sess.rank[fossilID]++;
+console.log(sess.rank[fossilID]);
+res.redirect('/rank');
+}});
+
+
+/////////////Rank Page is the Cart/////////////////
+app.get('/rank', (req,res)=>{
+const sess = req.session;
+
+if(!sess.rank){
+  sess.rank = {};
+}
+console.log("/rank hit");
+
+let rank = sess.rank;
+console.log(rank);
+let arrRank = [];
+let rankTotal = 0;
+
+for (let fossilID in rank){
+  const qty = sess.rank[fossilID];
+  console.log(fossilID);
+
+  let fossilDetails = getFossilDetails(fossilID);
+  rankTotal += qty * fossilDetails.num_likes;
+  fossilDetails.num_likes = qty;
+  arrRank.push(fossilDetails);
+
+  console.log(qty);
+  console.log(fossilDetails);
+}
+res.render('rank.html.njk', {arrRank, rankTotal});
+});
+
+
+  /////////////////////Username//////////////////////////
+
+function getName(user=username){
+  const username = 'user';
+  const newArr = [];
+  document.querySelector('#username').innerText = text;
+  if(user === username){
+    newArr.push(user);
+  }
+}
+
+  // app.get('/homepage', (req, res) => {
+  //   res.render('/homepage.html.njk');
+  // });
+
+  // app.post('/process-login', (req, res) => {
+  //   for(let user of users){
+  //     if (req.body.username === user.username){
+  //       console.log(req.body.username);
+  //       res.redirect('/top-fossils');
+  //       return;
+  //     }
+  //   }
+  //   res.render('/homepage.html.njk', { message: 'You forgot to share your name!' });
+  // });
+
 
 ViteExpress.listen(app, port, () => {
   console.log(`Server running on http://localhost:${port}...`);
