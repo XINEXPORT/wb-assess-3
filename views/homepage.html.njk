@@ -4,7 +4,7 @@
 
     <h1>Most Liked Fossils</h1>
 
-    <form class="form-signin" action= "/process-login" method = "POST">
+    <form action="/get-name" method = "POST">
 
       <div id="username">
         <label for="namefield">What's your name?</label>
@@ -12,7 +12,7 @@
       </div>
 
       <div>
-      <a class="nav-link" href="/top-fossils">Submit</a>
+      <input type="submit" />
       </div>
 
       <p id='invalid-message'>{{ message }}</p>
@@ -25,7 +25,5 @@
     <p id="random-fossil-name"></p>
 
     <script type="module" src="../src/random-fossil.js"></script>
-
-   
 
 {% endblock body %}

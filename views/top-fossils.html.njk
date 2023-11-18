@@ -3,49 +3,25 @@
 {% block title%} Most Liked Fossils {% endblock title%}
 
 {%block body%}
-{%for user in newArr%}
-    <h1> Welcome {{user}} </h1>
-{% endfor %}
+    <h1> Welcome {{name}} </h1>
 
+{% for fossils in mostliked %}
     <div class="fossil-div">
-      <h3>{{ fossils[0].name }}</h3>
-      <h2>Liked {{ fossils[0].num_likes }} times.</h2>
-      <img src="{{ fossils[0].img }}" />
+      <h3>{{ name }} , {{fossils.name}}</h3>
+      <h2>Liked {{ fossils.num_likes }} times.</h2>
+      <img src="{{ fossils.img }}" />
     </div>
+    {% endfor %}
 
-  <form class="form-vote" action= "/like-fossil" method = "POST">
-    <div class = "fossil-form-group">
+  <form action="/like-fossil"  method = "POST">
        <label>Choose a fossil</label>
         <select name="fossil">
-          <option>Aust</option>
-          <option>Quetz</option>
-          <option>Steg</option>
-          <option>Tyra</option>
+          <option value = "Aust">Australopithecus</option>
+          <option value = "Quetz">Quetzal</option>
+          <option value = "Steg">Stegosaurus</option>
+          <option value = "Tyra">Tyrannosaurus Rex</option>
         </select>
-    </div>
-
-      <div class = "form-group">
-        <button id= "fossil-submit-btn" type="submit">Submit</button>
-      </div>
+        <input type = "submit"/>
     </form>
 
-  <table class="most-liked-fossil">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Fossil Name</th>
-      <th>Likes</th>
-    </tr>
-  </thead>
-  <tbody>
-  {%for fossil in arrFossil%}
-    <tr>
-      <td>{{image}}</td>
-      <td>{{fossil.name}}</td>
-      <td>{{fossil.likes}}</td>
-    </tr>
-    {% endfor %}
-</tbody>
-</table>
-
-{% endblock %}
+  {% endblock %}
