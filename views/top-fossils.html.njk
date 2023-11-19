@@ -5,23 +5,30 @@
 {%block body%}
     <h1> Welcome {{name}} </h1>
 
-{% for fossils in mostliked %}
+{% for fossil in fossils %}
     <div class="fossil-div">
-      <h3>{{ name }} , {{fossils.name}}</h3>
-      <h2>Liked {{ fossils.num_likes }} times.</h2>
-      <img src="{{ fossils.img }}" />
+      <h3>{{ name }} , this is a {{fossil.name}}</h3>
+      <h2>Liked {{ fossil.num_likes }} times.</h2>
+      <img src="{{ fossil.img }}" />
     </div>
-    {% endfor %}
+  {% endfor %}
 
+  <div id = "fossil-form">
   <form action="/like-fossil"  method = "POST">
-       <label>Choose a fossil</label>
-        <select name="fossil">
-          <option value = "Aust">Australopithecus</option>
-          <option value = "Quetz">Quetzal</option>
-          <option value = "Steg">Stegosaurus</option>
-          <option value = "Tyra">Tyrannosaurus Rex</option>
+       <label for ="likedFossil">Choose a fossil</label>
+        <select class="sel" name="likedFossil">
+
+            {% for fossil in fossils %}
+			      <option>{{ fossil.name }}</option>
+			      {% endfor %}
+
         </select>
         <input type = "submit"/>
     </form>
+    </div>
+
+  <div id = "nav-link">
+    <a class="nav-link" href="/logout">Log Out</a>
+  </div>
 
   {% endblock %}

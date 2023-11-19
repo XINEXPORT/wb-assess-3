@@ -99,7 +99,7 @@ app.get('/top-fossils', (req, res) => {
 // })
 
 app.post('/get-name', (req, res) => {
-  const name = req.body.name;
+  const name = req.body.name; 
   console.log(name);
   req.session.name = name;
   res.redirect('/top-fossils');
@@ -116,20 +116,22 @@ app.get('/random-fossil.json', (req, res) => {
 ////UPON SELECTING A FOSSIL, IF THE SELECTED FOSSIL IS IN MOST_LIKED_FOSSILS OBJECT///
 ///INCREASE THE MOST_LIKED_FOSSILS NUM LIKES BY +1
 ///THEN RENDER THE THANK-YOU PAGE UPON LIKING A FOSSIL
+
 app.post('/like-fossil', (req, res) => {
   const fossilSelect = req.body.fossil
   const name = req.session.name
-
-  if(fossilSelect ===MOST_LIKED_FOSSILS[fossilSelect]){
-    MOST_LIKED_FOSSILS[fossilSelect].num_likes++
+  
+console.log(fossilSelect);
+if (MOST_LIKED_FOSSILS[fossilSelect]) {
+  if (!MOST_LIKED_FOSSILS[fossilSelect].num_likes) {
+    MOST_LIKED_FOSSILS[fossilSelect].num_likes = 0;
   }
+  MOST_LIKED_FOSSILS[fossilSelect].num_likes += 1;
+}
+  console.log(MOST_LIKED_FOSSILS);
   res.render('thank-you.html.njk', {name});
 });
 
-
-// app.get('/rank', (req, res) => {
-//   res.render('rank.html.njk');
-//  })
 
 
 ////LOGOUT LINK WAS CREATED TO DESTROY SESSON///
@@ -145,6 +147,10 @@ app.get('/logout', (req, res) => {
 
 
 /////////////Rank Page is the Cart/////////////////
+// app.get('/rank', (req, res) => {
+//   res.render('rank.html.njk');
+//  })
+
 // app.get('/rank', (req,res)=>{
 // const sess = req.session;
 
