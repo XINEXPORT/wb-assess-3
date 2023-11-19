@@ -90,16 +90,9 @@ app.get('/top-fossils', (req, res) => {
 
 //////////GETTING THE NAME OF USER////////
 ////IF THE NAME OF THE USER IS IN THE SESSION, REDIRECT TO TOP-FOSSILS
-// app.get('/get-name', (req, res) => {
-//   const name = req.body.name;
-//   if(name){
-//     req.session.name = name
-//     res.redirect('/top-fossils')
-//   }
-// })
 
 app.post('/get-name', (req, res) => {
-  const name = req.body.name; 
+  const name = req.body.name;
   console.log(name);
   req.session.name = name;
   res.redirect('/top-fossils');
@@ -118,17 +111,14 @@ app.get('/random-fossil.json', (req, res) => {
 ///THEN RENDER THE THANK-YOU PAGE UPON LIKING A FOSSIL
 
 app.post('/like-fossil', (req, res) => {
-  const fossilSelect = req.body.fossil
-  const name = req.session.name
-  
-console.log(fossilSelect);
+  const name = req.session.name;
+  console.log(req.body);
+  const fossilSelect = req.body.fossilSelect
+  console.log(req.body.fossilSelect);
+
 if (MOST_LIKED_FOSSILS[fossilSelect]) {
-  if (!MOST_LIKED_FOSSILS[fossilSelect].num_likes) {
-    MOST_LIKED_FOSSILS[fossilSelect].num_likes = 0;
-  }
-  MOST_LIKED_FOSSILS[fossilSelect].num_likes += 1;
+  MOST_LIKED_FOSSILS[fossilSelect].num_likes =+1;
 }
-  console.log(MOST_LIKED_FOSSILS);
   res.render('thank-you.html.njk', {name});
 });
 
@@ -147,37 +137,70 @@ app.get('/logout', (req, res) => {
 
 
 /////////////Rank Page is the Cart/////////////////
+
 // app.get('/rank', (req, res) => {
-//   res.render('rank.html.njk');
-//  })
-
-// app.get('/rank', (req,res)=>{
-// const sess = req.session;
-
-// if(!sess.rank){
-//   sess.rank = {};
-// }
-// console.log("/rank hit");
-
-// let rank = sess.rank;
-// console.log(rank);
-// let arrRank = [];
-// let rankTotal = 0;
-
-// for (let fossilID in rank){
-//   const qty = sess.rank[fossilID];
-//   console.log(fossilID);
-
-//   let fossilDetails = getFossilDetails(fossilID);
-//   rankTotal += qty * fossilDetails.num_likes;
-//   fossilDetails.num_likes = qty;
-//   arrRank.push(fossilDetails);
-
-//   console.log(qty);
-//   console.log(fossilDetails);
-// }
-// res.render('rank.html.njk', {arrRank, rankTotal});
+//   const name = req.session.name
+//   if (name) {
+//     res.render("rank.html.njk", { fossils: Object.values(MOST_LIKED_FOSSILS), name });
+//   } else {
+//     res.redirect('/')
+//   }
 // });
+
+// app.get('/top-fossils/:fossilId', (req, res) => {
+//   let {fossilId} = req.params
+//   res.render('/rank', { fossil: fossilDetails(fossilId) });
+// });
+
+// app.get('/top-fossils/:fossilId', (req, res) => {
+//   const {fossilId} = req.params
+//   const sess = req.session;
+
+//   console.log(sess);
+
+//     if (!sess.rank) {
+//       sess.rank = {};
+//     }
+
+//     if (!sess.rank[fosilId]) {
+//       sess.rank[fossilID] = 0;
+//     }
+
+//     sess.rank[fossilId]++;
+//     console.log (sess.rank[fossilID]);
+//     res.redirect('/rank');
+// });
+
+// app.get('/rank', (req, res) => {
+//   let sess = req.session;
+
+//   if (!sess.rank) {
+//     sess.rank = {};
+//   }
+//   console.log (sess);
+//   console.log ("/rank hit");
+//     let rank = sess.rank;
+//     console.log(rank);
+//     let arrRank = [];
+//     let rankTotal = 0;
+
+//     for (let fossilSelect in rank) {
+//       console.log(rank, "hi");
+//       const qty = sess.rank[fossilSelect];
+//       console.log(fossilSelect);
+
+//       let fossilDetails = getFossilDetails(fossilSelect);
+//       rankTotal += qty * fossilDetails.num_likes;
+//       fossilDetails.num_likes = qty;
+//       arrRank.push(fossilDetails);
+
+//       console.log(qty);
+//       console.log(fossilDetails);
+//     }
+
+//     res.render('rank.html.njk', { arrRank, rankTotal });
+//   });
+
 
 
 

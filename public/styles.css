@@ -35,6 +35,11 @@ input[type=submit] {
   border-radius: 5px; 
 }
 
+#submit{
+  display: inline grid;
+  padding-bottom: 20px;
+}
+
 #get-random-fossil{
   font-size: medium;
   padding:5px 15px; 
@@ -58,7 +63,7 @@ img.centered {
 }
 
 .fossil-div {
-  display: inline-block;
+  display: inline-grid;
   padding: 10px;
   height: 400px;
   width: 300px;
