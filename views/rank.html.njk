@@ -1,24 +1,30 @@
 {% extends 'base.html.njk' %}
 
 {% block body %}
+
+<h1> {{name}}'s Stats </h1>
 <table id= "fossil-rank">
   <thead>
     <tr>
-      <th>Fossil Picture</th>
       <th>Fossil Name</th>
       <th>Likes</th>
     </tr>
   </thead>
   <tbody>
-  {%for fossil in arrFossils%}
+  {%for fossil in fossils%}
     <tr>
-      <td>{{fossil.img}}</td>
+      <td id = "rankFossil">{{fossil.img}}</td>
+      <td id = "rankFossil">{{fossil.img}}</td>
       <td>{{fossil.name}}</td>
       <td>${{fossil.likes}}</td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+
+<img src = "https://64.media.tumblr.com/6a57d6511d79315949c041ac7bbfdd0c/45b776d355fc16f7-5b/s250x400/ecefc53c41a7e51f707afa3758be4215211205db.png">
+<im src = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRPe3u49HCpcbTrOSOYbK338bxBwyAzbatB2WUzTozanZK7kA9W">
+
 
 <a class ="btn btn-primary" href="/homepage/">Back to Home</a>
 

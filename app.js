@@ -62,32 +62,77 @@ const OTHER_FOSSILS = [
 
 
 
-////// ROUTES //////////////////////
+////////////////// ROUTES ///////////////////
+
+//////USE SESSION UPON ENTERING THE SITE/////
+////SESSION WILL STORE THE NAME
 app.get('/', (req, res) => {
-  if (req.session.name) {
-    res.render('/top-fossils.html.njk')
+  const name = req.session.name;
+
+  if (name) {
+    res.redirect('/top-fossil')
   } else {
     res.render('homepage.html.njk')
   }
 })
 
+/////USING SESSIONS TO REMEMBER TOP FOSSILS PAGE LOAD/////
+////THIS OCCURS WHEN A USER HAS PROVIDED THEIR NAME
 app.get('/top-fossils', (req, res) => {
-  res.render('top-fossils.html.njk');
+  const name = req.session.name
+  if (name) {
+    res.render("top-fossils.html.njk", { fossils: Object.values(MOST_LIKED_FOSSILS), name });
+  } else {
+    res.redirect('/')
+  }
 });
 
-app.get('/thank-you', (req, res) => {
-  res.render('thank-you.html.njk');
+
+//////////GETTING THE NAME OF USER////////
+////IF THE NAME OF THE USER IS IN THE SESSION, REDIRECT TO TOP-FOSSILS
+// app.get('/get-name', (req, res) => {
+//   const name = req.body.name;
+//   if(name){
+//     req.session.name = name
+//     res.redirect('/top-fossils')
+//   }
+// })
+
+app.post('/get-name', (req, res) => {
+  const name = req.body.name;
+  console.log(name);
+  req.session.name = name;
+  res.redirect('/top-fossils');
 });
 
-app.get('/rank', (req, res) => {
-  res.render('rank.html.njk');
- })
-
+///////LOADING A RANDOM FOSSIL FROM JSON FILE/////
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
 });
 
+
+
+////UPON SELECTING A FOSSIL, IF THE SELECTED FOSSIL IS IN MOST_LIKED_FOSSILS OBJECT///
+///INCREASE THE MOST_LIKED_FOSSILS NUM LIKES BY +1
+///THEN RENDER THE THANK-YOU PAGE UPON LIKING A FOSSIL
+app.post('/like-fossil', (req, res) => {
+  const fossilSelect = req.body.fossil
+  const name = req.session.name
+
+  if(fossilSelect ===MOST_LIKED_FOSSILS[fossilSelect]){
+    MOST_LIKED_FOSSILS[fossilSelect].num_likes++
+  }
+  res.render('thank-you.html.njk', {name});
+});
+
+
+// app.get('/rank', (req, res) => {
+//   res.render('rank.html.njk');
+//  })
+
+
+////LOGOUT LINK WAS CREATED TO DESTROY SESSON///
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -95,31 +140,6 @@ app.get('/logout', (req, res) => {
     }
   res.render('homepage.html.njk');
 });
-});
-
-app.post('/like-fossil', (req, res) => {
-
-const {fossil} = req.body
-req.session.fossile = fossil
-for(const key in MOST_LIKED_FOSSILS){
-  if(key ===fossil){
-    MOST_LIKED_FOSSILS[fossil].num_likes++
-  }
-}
-res.render ('thank-you.html.njk', {name: req.session.name})
-})
-
-
-////////////Top Fossils is like Add to Cart///////////////
-
-app.get('/top-fossils', (req, res) =>{
-  if (req.session.name) {
-    res.render('top-fossils.html.njk', {
-      mostLiked: Object.values(MOST_LIKED_FOSSILS), name: req.session.name
-    });
-  } else {
-    res.redirect('top-fossils.html.njk');
-  };
 });
 
 
@@ -154,13 +174,6 @@ app.get('/top-fossils', (req, res) =>{
 // });
 
 
-  /////////////////////Username//////////////////////////
-
-  app.post('/get-name', (req, res) => {
-    const { name } = req.body
-      req.session.name = name
-      res.redirect('/top-fossils')
-  })
 
 ViteExpress.listen(app, port, () => {
   console.log(`Server running on http://localhost:${port}...`);

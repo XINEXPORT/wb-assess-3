@@ -1,22 +1,19 @@
 {% extends 'base.html.njk' %}
-{%block title%} Most Liked Fossils {%endblock title%}
+
 {%block body%}
 
     <h1>Most Liked Fossils</h1>
 
     <form action="/get-name" method = "POST">
 
-      <div id="username">
+       <div id="name">
         <label for="namefield">What's your name?</label>
-        <input type="text" name= "username" required />
+        <input type="text" name= "name" required />
       </div>
 
       <div>
       <input type="submit" />
       </div>
-
-      <p id='invalid-message'>{{ message }}</p>
-
       </form>
 
     <h1>Random Fossil</h1>
