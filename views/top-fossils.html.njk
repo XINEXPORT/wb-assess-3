@@ -19,9 +19,10 @@
        <label for ="likedFossil">Choose a fossil</label>
         <select class="sel" name="likedFossil">
 
-            {% for fossil in fossils %}
-			      <option>{{ fossil.name }}</option>
-			      {% endfor %}
+			      <option value="aust">Australopithecus</option>
+            <option value="quetz">Quetzal</option>
+            <option value="steg">Stegosaurus</option>
+            <option value="trex">Tyrannosaurus Rex</option>
 
         </select>
         <input type = "submit"/>

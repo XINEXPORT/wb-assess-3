@@ -113,11 +113,11 @@ app.get('/random-fossil.json', (req, res) => {
 app.post('/like-fossil', (req, res) => {
   const name = req.session.name;
   console.log(req.body);
-  const fossilSelect = req.body.fossilSelect
-  console.log(req.body.fossilSelect);
+  const likedFossil = req.body.likedFossil
+  console.log(req.body.likedFossil);
 
-if (MOST_LIKED_FOSSILS[fossilSelect]) {
-  MOST_LIKED_FOSSILS[fossilSelect].num_likes =+1;
+if (MOST_LIKED_FOSSILS[likedFossil]) {
+  MOST_LIKED_FOSSILS[likedFossil].num_likes +=1;
 }
   res.render('thank-you.html.njk', {name});
 });
@@ -133,6 +133,7 @@ app.get('/logout', (req, res) => {
   res.render('homepage.html.njk');
 });
 });
+
 
 
 
