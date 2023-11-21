@@ -9,31 +9,31 @@ async function randomFossil(evt){
   console.log(response);
 
   const img = response.data.img;
-
   const name =  response.data.name;
-  console.log(img);
+  console.log(name);
   
   document.querySelector('#random-fossil-image').innerHTML = `<img src = ${img}>`;
+  document.querySelector('#random-fossil-name').innerText = `${name}`;
 }
 
 document.querySelector('#get-random-fossil').addEventListener('click', randomFossil);
 
 ////////////////////////////////////
 
-async function rankFossil(evt){
-  const url = `/random-fossil.json`;
-  const getRandFossil = document.querySelector('#rankFossil');
-  const response = await axios.get(url);
+// async function rankFossil(evt){
+//   const url = `/random-fossil.json`;
+//   const getRandFossil = document.querySelector('#rankFossil');
+//   const response = await axios.get(url);
 
-  console.log(response);
+//   console.log(response);
 
-  const img = response.data.img;
+//   const img = response.data.img;
 
-  const name =  response.data.name;
-  console.log(img);
+//   const name =  response.data.name;
+//   console.log(img);
   
-  document.querySelector('#rankFossil').innerHTML = `<img src = ${img}>`;
-}
+//   document.querySelector('#rankFossil').innerHTML = `<img src = ${img}>`;
+// }
 
 // document.querySelector('#rankFossil').addEventListener('click', randomFossil);
 

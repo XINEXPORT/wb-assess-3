@@ -78,6 +78,11 @@ img.centered {
 
 }
 
+#random-fossil-name{
+  font-size: x-large;
+  font-weight: bold;
+}
+
 .sel{
   width: 200px;
   height: 40px;
